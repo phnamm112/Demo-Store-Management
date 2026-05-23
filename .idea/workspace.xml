@@ -5,73 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a997e73-0749-450a-bef5-3ed3e8f33f83" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/wrapper.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StoreManagementDemo.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/StoreManagementDemoApplication.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/controller/AuthController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/controller/OrderController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/controller/ProductController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/controller/WebAdminController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/controller/WebAuthController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/controller/WebOrderController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/controller/WebProductController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/dto/JwtResponse.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/dto/LoginRequest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/dto/OrderRequest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/dto/OrderRequestItem.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/dto/TokenRefreshRequest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/dto/TokenRefreshResponse.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/dto/UserRegistrationDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/BaseEntity.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/Order$OrderBuilder.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/Order.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/OrderItem$OrderItemBuilder.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/OrderItem.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/OrderStatus.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/Product$ProductBuilder.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/Product.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/RefreshToken.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/Role.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/User$UserBuilder.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/User.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/repository/OrderRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/repository/ProductRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/repository/RefreshTokenRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/repository/UserRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/security/CustomUserDetails.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/security/CustomUserDetailsService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/security/JwtAuthenticationFilter.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/security/JwtUtils.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/security/SecurityConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/service/CurrentUserService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/service/CurrentUserServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/service/OrderService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/service/OrderServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/service/ProductService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/service/ProductServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/service/RefreshTokenService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/service/RefreshTokenServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/static/css/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/templates/admin/orders.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/templates/admin/product-detail.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/templates/admin/product-form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/templates/admin/products.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/templates/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/templates/orders.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/templates/product-detail.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/templates/products.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/templates/register.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/com/example/StoreManagementDemo/StoreManagementDemoApplicationTests.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/wrapper.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.mvn/wrapper/wrapper.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/StoreManagementDemo/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/StoreManagementDemo/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/StoreManagementDemo/StoreManagementDemoApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/dto/OrderRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/dto/OrderRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/dto/UserRegistrationDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/dto/UserRegistrationDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/Order$OrderBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/Order$OrderBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/OrderItem$OrderItemBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/OrderItem$OrderItemBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/Product$ProductBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/Product$ProductBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/User$UserBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/StoreManagementDemo/model/User$UserBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/example/StoreManagementDemo/StoreManagementDemoApplicationTests.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +52,7 @@
       <map>
         <entry key="JPA Inspector" value="false" />
         <entry key="JPA Palette" value="false" />
-        <entry key="JPA Structure" value="true" />
+        <entry key="JPA Structure" value="false" />
       </map>
     </option>
   </component>
@@ -115,6 +65,10 @@
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
@@ -129,7 +83,11 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -137,6 +95,17 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="StoreManagementDemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="StoreManagementDemo" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.StoreManagementDemo.StoreManagementDemoApplication" />
