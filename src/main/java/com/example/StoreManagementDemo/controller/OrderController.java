@@ -6,6 +6,7 @@ import com.example.StoreManagementDemo.model.Order;
 import com.example.StoreManagementDemo.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +21,9 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody OrderRequest orderRequest, Principal principal) {
-        Order order = orderService.createOrder(principal.getName(), orderRequest);
-        return ResponseEntity.ok(order);
+    public ResponseEntity<Void> createOrder(@Valid @RequestBody OrderRequest orderRequest, Principal principal) {
+        orderService.createOrder(principal.getName(), orderRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping

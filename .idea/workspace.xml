@@ -31,9 +31,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -96,13 +96,15 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -118,7 +120,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e0f5c188-6514-4a84-bad0-7d2a0523c4b5" name="Default Changelist" comment="" />
+      <changelist id="6a997e73-0749-450a-bef5-3ed3e8f33f83" name="Default Changelist" comment="" />
       <created>1779430408624</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -128,6 +130,7 @@
       <workItem from="1779448460047" duration="11442000" />
       <workItem from="1779462975868" duration="4863000" />
       <workItem from="1779507970246" duration="1172000" />
+      <workItem from="1779540145292" duration="2386000" />
     </task>
     <servers />
   </component>

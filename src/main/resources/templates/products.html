@@ -14,10 +14,10 @@
     <span class="navbar-brand">Storefront</span>
     <ul class="navbar-links">
       <li><a th:href="@{/web/products}" class="active">Browse</a></li>
+      <li><a th:href="@{/web/cart}">My Cart</a></li>
       <li><a th:href="@{/web/orders}">My Orders</a></li>
-      <!-- Conditional Admin shortcut panel link -->
       <li th:if="${isAdmin}">
-        <a th:href="@{/web/admin/products}" style="color: var(--accent);">⚙️ Admin Panel</a>
+        <a th:href="@{/web/admin/products}" style="color: var(--accent);">Admin Panel</a>
       </li>
     </ul>
   </div>
@@ -82,31 +82,26 @@
       <!-- Interactive Transactional Actions -->
       <div class="order-form mt-1" style="width: 100%;">
         <th:block th:if="${prod.stockQuantity > 0}">
-          <!-- Form mapping directly to WebOrderController's POST handler -->
-          <form th:action="@{/web/orders/create}" method="POST" style="display: flex; flex-direction: column; gap: 0.5rem; width: 100%;">
+          <form th:action="@{/web/cart/add}" method="POST" style="display: flex; flex-direction: column; gap: 0.5rem; width: 100%;">
 
-            <!-- Hidden input transmitting the item context UUID string -->
             <input type="hidden" name="productId" th:value="${prod.id}">
 
             <div style="display: flex; gap: 0.5rem; align-items: center; width: 100%;">
-              <!-- Numeric Input bounded by remaining stock limits mapped to 'quantity' parameter -->
               <input type="number" name="quantity" value="1" min="1" th:max="${prod.stockQuantity}"
                      class="form-control" style="width: 80px;" aria-label="Item Quantity">
 
               <button type="submit" class="btn btn-accent btn-sm" style="flex-grow: 1;">
-                Buy Now
+                Add to Cart
               </button>
             </div>
 
-            <!-- Small remaining quantity hint below the selectors -->
             <span style="font-size: 0.75rem; color: var(--text-muted); text-align: left; padding-left: 0.25rem;"
                   th:text="${'Select up to ' + prod.stockQuantity + ' units'}">
-                                Select up to X units
-                            </span>
+            Select up to X units
+      </span>
           </form>
         </th:block>
 
-        <!-- Disabled fallback state if stock level drops down to 0 -->
         <button th:if="${prod.stockQuantity == 0}" class="btn btn-outline btn-sm" style="width: 100%;" disabled>
           Out of Stock
         </button>
@@ -115,7 +110,7 @@
       <!-- Extra modification injection helper if the logged-in user is an Administrator -->
       <div th:if="${isAdmin}" class="mt-2" style="border-top: 1px solid var(--glass-border); padding-top: 0.75rem;">
         <a th:href="@{/web/admin/products/edit/{id}(id=${prod.id})}" class="btn btn-outline btn-sm" style="width: 100%; justify-content: center;">
-          ✏️ Quick Edit Specifications
+          Quick Edit Specifications
         </a>
       </div>
 
