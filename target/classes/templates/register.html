@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create an Account</title>
+    <!-- Include your custom glassmorphism stylesheet here -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="auth-wrapper">
+    <div class="auth-card glass-card animate-in">
+        <h1>Join Us</h1>
+        <p class="subtitle">Create your store management account</p>
+
+        <!-- Error Message Alert -->
+        <div th:if="${errorMessage}" class="alert alert-error">
+            <span th:text="${errorMessage}">Error message text goes here</span>
+        </div>
+
+        <form th:action="@{/web/register}" method="POST">
+            <!-- Username Input -->
+            <div class="form-group">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-control"
+                       placeholder="Enter your username" required autocomplete="username">
+            </div>
+
+            <!-- Password Input -->
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-control"
+                       placeholder="••••••••" required autocomplete="new-password">
+            </div>
+
+            <!-- Confirm Password Input -->
+            <div class="form-group">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
+                       placeholder="••••••••" required autocomplete="new-password">
+            </div>
+
+            <!-- Role Selection (Hidden or Dropdown) -->
+            <!-- Defaults to 'USER' per your controller, change to 'select' if admins can select roles -->
+            <input type="hidden" name="role" value="USER">
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary mt-2">Sign Up</button>
+        </form>
+
+        <div class="auth-link">
+            Already have an account? <a th:href="@{/web/login}">Log in here</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

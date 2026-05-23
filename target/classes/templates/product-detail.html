@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${product.name}">Specification Breakdown</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="auth-wrapper">
+  <div class="detail-card glass-card animate-in">
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap;">
+      <h2 th:text="${product.name}" style="margin: 0;">Product Details</h2>
+      <!-- Admin contextual routing shortcut tag -->
+      <a th:if="${isAdmin}" th:href="@{/web/admin/products/edit/{id}(id=${product.id})}" class="badge badge-warning" style="text-decoration: none;">
+        🔧 Edit in Admin Panel
+      </a>
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 1.25rem 0;">
+
+    <div class="detail-row">
+      <div class="detail-label">Item Description</div>
+      <div class="detail-value" th:text="${product.description}">Full product spec description strings.</div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Price Point</div>
+      <div class="detail-value product-price" th:text="${'$' + product.price}">$0.00</div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Availability Status</div>
+      <div class="detail-value">
+        <span th:if="${product.stockQuantity > 10}" class="badge badge-success" th:text="${product.stockQuantity + ' Units Ready'}">In Stock</span>
+        <span th:if="${product.stockQuantity <= 10 && product.stockQuantity > 0}" class="badge badge-warning" th:text="${'Only ' + product.stockQuantity + ' Left'}">Low Stock</span>
+        <span th:if="${product.stockQuantity == 0}" class="badge badge-danger">Completely Backordered</span>
+      </div>
+    </div>
+
+    <!-- Context Processing Options Footer Form Block -->
+    <div class="flex gap-1 mt-3" style="flex-wrap: wrap;">
+      <a th:href="@{/web/products}" class="btn btn-outline" style="flex: 1; min-width: 120px;">
+        🔀 Back to Browsing
+      </a>
+
+      <th:block th:if="${product.stockQuantity > 0}">
+        <button class="btn btn-success" style="flex: 2; min-width: 200px;">
+          Secure Purchase Unit
+        </button>
+      </th:block>
+
+      <button th:if="${product.stockQuantity == 0}" class="btn btn-outline" style="flex: 2; min-width: 200px;" disabled>
+        Notify Me When Available
+      </button>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
