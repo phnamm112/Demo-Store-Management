@@ -7,7 +7,7 @@ import com.example.StoreManagementDemo.model.OrderStatus;
 import java.util.List;
 
 public interface OrderService {
-    Order createOrder(String username, OrderRequest orderRequest);
+    void createOrder(String username, OrderRequest orderRequest);
     List<Order> getAllOrders();
     List<Order> getUserOrders(String username);
     void updateOrderStatus(String id, OrderStatus status);

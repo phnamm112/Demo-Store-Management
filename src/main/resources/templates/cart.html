@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <style>
+    .cart-summary { margin-top: 25px; padding: 20px; text-align: right; }
+    .cart-total { font-size: 1.4rem; font-weight: 600; margin-bottom: 15px; }
+    .btn-checkout { background: #22c55e; color: white; padding: 10px 24px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; }
+    .btn-remove { background: #ef4444; color: white; padding: 4px 10px; border: none; border-radius: 4px; cursor: pointer; }
+    .checkout-form { display: inline-block; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <span class="navbar-brand">Storefront</span>
+    <ul class="navbar-links">
+      <li><a th:href="@{/web/products}">Browse</a></li>
+      <li><a th:href="@{/web/cart}" class="active">My Cart 🛒</a></li>
+      <li><a th:href="@{/web/orders}">My Orders</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h1>Review Your Cart</h1>
+    <p>Manage your selections before placing your final purchase checkout.</p>
+  </div>
+
+  <div th:if="${#lists.isEmpty(cartItems)}" class="glass-card empty-state">
+    <div class="empty-icon">🛒</div>
+    <h3>Your cart is empty</h3>
+    <p>Explore our catalog to start building your order list.</p>
+    <a th:href="@{/web/products}" class="btn btn-primary mt-2">Browse Catalog</a>
+  </div>
+
+  <div th:if="${!#lists.isEmpty(cartItems)}" class="table-wrapper glass-card">
+    <table>
+      <thead>
+      <tr>
+        <th>Product Variant</th>
+        <th>Unit Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="item : ${cartItems}">
+        <td th:text="${item.productName}" style="font-weight: 500;">Product Variant</td>
+        <td th:text="${'$' + item.price}">$0.00</td>
+        <td th:text="${item.quantity}">1</td>
+        <td th:text="${'$' + (item.price * item.quantity)}" style="font-weight: 600; color: var(--accent);">$0.00</td>
+        <td>
+          <form th:action="@{/web/cart/remove}" method="POST">
+            <input type="hidden" name="productId" th:value="${item.productId}">
+            <button type="submit" class="btn-remove">Remove</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="cart-summary glass-card mt-2">
+      <div class="cart-total">
+        Grand Total: <span th:text="${'$' + cartTotal}">$0.00</span>
+      </div>
+      <form th:action="@{/web/orders/create}" method="POST" class="checkout-form">
+        <button type="submit" class="btn-checkout">Place Order</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

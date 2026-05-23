@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
     private final CurrentUserService currentUserService;
 
     @Transactional
-    public Order createOrder(String username, OrderRequest orderRequest) {
+    public void createOrder(String username, OrderRequest orderRequest) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -64,7 +64,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         order.setTotalAmount(totalAmount);
-        return orderRepository.save(order);
+        orderRepository.save(order);
     }
 
     @Transactional

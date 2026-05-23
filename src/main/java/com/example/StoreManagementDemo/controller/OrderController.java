@@ -20,9 +20,9 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody OrderRequest orderRequest, Principal principal) {
-        Order order = orderService.createOrder(principal.getName(), orderRequest);
-        return ResponseEntity.ok(order);
+    public ResponseEntity<Void> createOrder(@Valid @RequestBody OrderRequest orderRequest, Principal principal) {
+        orderService.createOrder(principal.getName(), orderRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping

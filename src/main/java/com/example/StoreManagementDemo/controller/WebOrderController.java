@@ -4,13 +4,14 @@ import com.example.StoreManagementDemo.dto.OrderRequest;
 import com.example.StoreManagementDemo.dto.OrderRequestItem;
 import com.example.StoreManagementDemo.service.OrderService;
 import com.example.StoreManagementDemo.service.ProductService;
+import com.example.StoreManagementDemo.controller.WebCartController.CartItem; // Import your DTO from WebCartController
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
@@ -32,26 +33,45 @@ public class WebOrderController {
     }
 
     @PostMapping("/orders/create")
-    public String createOrder(@RequestParam String productId,
-                              @RequestParam Integer quantity,
-                              Principal principal,
-                              RedirectAttributes redirectAttributes) {
+    public String createOrderFromCart(HttpSession session,
+                                      Principal principal,
+                                      RedirectAttributes redirectAttributes) {
         try {
-            OrderRequestItem item = new OrderRequestItem();
-            item.setProductId(productId);
-            item.setQuantity(quantity);
+            // 1. Retrieve the list of active selections saved within the browser session
+            @SuppressWarnings("unchecked")
+            List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
 
+            // 2. Safeguard check to ensure user doesn't submit an empty cart state
+            if (cart == null || cart.isEmpty()) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Your shopping cart is empty!");
+                return "redirect:/web/cart";
+            }
+
+            // 3. Map all individual items from your Session Cart over to OrderRequestItems
             List<OrderRequestItem> items = new ArrayList<>();
-            items.add(item);
+            for (CartItem cartItem : cart) {
+                OrderRequestItem orderItem = new OrderRequestItem();
+                orderItem.setProductId(cartItem.getProductId());
+                orderItem.setQuantity(cartItem.getQuantity());
+                items.add(orderItem);
+            }
 
+            // 4. Populate your composite request model payload
             OrderRequest orderRequest = new OrderRequest();
             orderRequest.setItems(items);
 
+            // 5. Invoke service layer implementation to persist to database
             orderService.createOrder(principal.getName(), orderRequest);
+
+            // 6. Clear out the cart items from memory upon a verified transaction completion
+            session.removeAttribute("cart");
+
             redirectAttributes.addFlashAttribute("successMessage", "Order placed successfully!");
+            return "redirect:/web/orders"; // Route them to historical checkout list page
+
         } catch (RuntimeException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to place order: " + e.getMessage());
+            return "redirect:/web/cart";
         }
-        return "redirect:/web/products";
     }
 }
