@@ -20,11 +20,11 @@ public class ProductServiceImpl implements ProductService {
     private final CurrentUserService currentUserService;
 
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+        return productRepository.findAllByIsDeletedFalse();
     }
 
     public Optional<Product> getProductById(String id) {
-        return productRepository.findById(id);
+        return productRepository.findByIdAndIsDeletedFalse(id);
     }
 
     public Product createProduct(Product product) {
@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
     public Product updateProduct(String id, Product updatedProduct) {
         String currentUserId = currentUserService.getCurrentUserId().orElse("system");
 
-        return productRepository.findById(id)
+        return productRepository.findByIdAndIsDeletedFalse(id)
                 .map(product -> {
                     product.setName(updatedProduct.getName());
                     product.setDescription(updatedProduct.getDescription());
@@ -49,6 +49,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public void deleteProduct(String id) {
-        productRepository.deleteById(id);
+        String currentUserId = currentUserService.getCurrentUserId().orElse("system");
+        productRepository.findByIdAndIsDeletedFalse(id)
+                .map(product -> {
+                    product.setDeleted(true);
+                    product.setDeletedAt(java.time.LocalDateTime.now());
+                    product.setDeletedBy(currentUserId);
+
+                    return productRepository.save(product);
+                })
+                .orElseThrow(() -> new RuntimeException("Product not found"));
     }
 }
