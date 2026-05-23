@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Item Specifics</title>
+  <link class="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="auth-wrapper">
+  <div class="detail-card glass-card animate-in">
+    <h2 th:text="${product.name}">Product Name</h2>
+    <hr style="border: 0; border-top: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+
+    <div class="detail-row">
+      <div class="detail-label">Unique Identifier</div>
+      <div class="detail-value" th:text="${product.id}">ID_0001</div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Description</div>
+      <div class="detail-value" th:text="${product.description}">Item documentation goes here.</div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Current Unit Price</div>
+      <div class="detail-value product-price" th:text="${'$' + product.price}">$0.00</div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Inventory Level</div>
+      <div class="detail-value">
+                    <span th:text="${product.stockQuantity + ' left'}"
+                          th:classappend="${product.stockQuantity > 0} ? 'badge badge-stock' : 'badge badge-danger'">0 available</span>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Created By</div>
+      <div class="detail-value" th:text="${product.createdBy != null ? product.createdBy : 'System Agent'}">Operator</div>
+    </div>
+
+    <div class="detail-row" th:if="${product.updatedBy != null}">
+      <div class="detail-label">Modified By</div>
+      <div class="detail-value" th:text="${product.updatedBy}">Operator Name</div>
+    </div>
+
+    <!-- Context Interactions -->
+    <div class="flex gap-1 mt-3">
+      <a th:href="@{/web/admin/products}" class="btn btn-outline">Back to Grid</a>
+      <a th:href="@{/web/admin/products/edit/{id}(id=${product.id})}" class="btn btn-primary">Edit Specifications</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
