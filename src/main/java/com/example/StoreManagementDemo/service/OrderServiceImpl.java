@@ -68,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Transactional
-    public Order updateOrderStatus(String id, OrderStatus status) {
+    public void updateOrderStatus(String id, OrderStatus status) {
         String currentUserId = currentUserService.getCurrentUserId().orElse("system");
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
@@ -93,8 +93,6 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(status);
         order.setUpdatedAt(LocalDateTime.now());
         order.setUpdatedBy(currentUserId);
-
-        return orderRepository.save(order);
     }
 
     public List<Order> getAllOrders() {
