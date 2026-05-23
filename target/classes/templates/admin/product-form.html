@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${isEdit} ? 'Edit Product' : 'Add Product'">Product Form</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="auth-wrapper">
+  <div class="auth-card glass-card animate-in" style="max-width: 550px;">
+    <h1 th:text="${isEdit} ? 'Modify Product' : 'Create Product'">Product Configuration</h1>
+    <p class="subtitle">Populate inventory specifications accurately</p>
+
+    <!-- action endpoints dynamically toggle based on the isEdit flag -->
+    <form th:action="${isEdit} ? @{/web/admin/products/edit/{id}(id=${product.id})} : @{/web/admin/products/add}" method="POST">
+
+      <!-- Product Name -->
+      <div class="form-group">
+        <label for="name" class="form-label">Product Title</label>
+        <input type="text" id="name" name="name" class="form-control" th:value="${product.name}" placeholder="Ex: Mechanical Keyboard" required>
+      </div>
+
+      <!-- Description -->
+      <div class="form-group">
+        <label for="description" class="form-label">Description</label>
+        <textarea id="description" name="description" class="form-control" th:text="${product.description}" placeholder="Describe features, metrics, or details..." required></textarea>
+      </div>
+
+      <!-- Price & Stock Grid Layout -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="form-group">
+          <label for="price" class="form-label">Unit Price ($)</label>
+          <input type="number" id="price" name="price" step="0.01" min="0.00" class="form-control" th:value="${product.price}" placeholder="0.00" required>
+        </div>
+
+        <div class="form-group">
+          <label for="stockQuantity" class="form-label">Initial Stock Level</label>
+          <input type="number" id="stockQuantity" name="stockQuantity" min="0" class="form-control" th:value="${product.stockQuantity}" placeholder="0" required>
+        </div>
+      </div>
+
+      <!-- Control Buttons Interaction -->
+      <div class="flex gap-1 mt-3">
+        <a th:href="@{/web/admin/products}" class="btn btn-outline" style="flex: 1;">Cancel</a>
+        <button type="submit" class="btn btn-accent" style="flex: 2;" th:text="${isEdit} ? 'Save Transformations' : 'Add Product'">Apply Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

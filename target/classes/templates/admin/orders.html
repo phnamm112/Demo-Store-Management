@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Order Dispatches</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <span class="navbar-brand">Store Dashboard</span>
+    <ul class="navbar-links">
+      <li><a th:href="@{/web/admin/products}">Products</a></li>
+      <li><a th:href="@{/web/admin/orders}" class="active">Orders</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h1>Customer Receipts</h1>
+    <p>Monitor, track transactions, and follow up processing steps.</p>
+  </div>
+
+  <!-- Empty State Handling -->
+  <div th:if="${#lists.isEmpty(orders)}" class="glass-card empty-state">
+    <div class="empty-icon">🛒</div>
+    <h3>No placement logs</h3>
+    <p>Transactions will appear here when customers complete checkouts.</p>
+  </div>
+
+  <!-- Orders Table Structure -->
+  <div th:if="${!#lists.isEmpty(orders)}" class="table-wrapper glass-card">
+    <table>
+      <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Buyer Client</th>
+        <th>Aggregate Total</th>
+        <th>Status</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="order : ${orders}">
+        <td style="font-family: monospace; color: var(--accent);" th:text="${order.id}">#ORD-08972</td>
+        <!-- Using order.createdBy here to safely display the buyer's username -->
+        <td th:text="${order.createdBy != null ? order.createdBy : 'Guest'}">John Doe</td>
+        <td th:text="${'$' + order.totalAmount}" style="font-weight: 600;">$0.00</td>
+        <td>
+          <span th:if="${order.status.name() == 'COMPLETED'}" class="badge badge-success">Completed</span>
+          <span th:if="${order.status.name() == 'PENDING'}" class="badge badge-warning">Pending</span>
+          <span th:if="${order.status.name() == 'CANCELLED'}" class="badge badge-danger">Cancelled</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>
