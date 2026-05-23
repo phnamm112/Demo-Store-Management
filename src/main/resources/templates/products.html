@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Products</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Main Global Navigation Bar -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <span class="navbar-brand">Storefront</span>
+    <ul class="navbar-links">
+      <li><a th:href="@{/web/products}" class="active">Browse</a></li>
+      <li><a th:href="@{/web/orders}">My Orders</a></li>
+      <!-- Conditional Admin shortcut panel link -->
+      <li th:if="${isAdmin}">
+        <a th:href="@{/web/admin/products}" style="color: var(--accent);">⚙️ Admin Panel</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h1>Explore Our Catalog</h1>
+    <p>Premium options engineered with outstanding care and precision metrics.</p>
+  </div>
+
+  <!-- Success Toast Notifications -->
+  <div th:if="${successMessage}" class="alert alert-success">
+    <span th:text="${successMessage}">Operation successful!</span>
+  </div>
+
+  <!-- Error Toast Notifications -->
+  <div th:if="${errorMessage}" class="alert alert-error">
+    <span th:text="${errorMessage}">An error occurred!</span>
+  </div>
+
+  <!-- Empty State Fallback -->
+  <div th:if="${#lists.isEmpty(products)}" class="glass-card empty-state">
+    <div class="empty-icon">🪐</div>
+    <h3>Catalog is empty</h3>
+    <p>Check back shortly! New inventory selections are on their way.</p>
+  </div>
+
+  <!-- Grid Cards Iteration Layout -->
+  <div th:if="${!#lists.isEmpty(products)}" class="product-grid">
+    <div th:each="prod : ${products}" class="glass-card product-card">
+
+      <!-- Product Name Header linking to item details view -->
+      <a th:href="@{/web/products/{id}(id=${prod.id})}" class="product-name" th:text="${prod.name}">
+        Product Variant Title
+      </a>
+
+      <!-- Trimmed Item Context Field Description -->
+      <p class="product-desc" th:text="${prod.description}">
+        Detailed documentation properties go here.
+      </p>
+
+      <div class="product-meta">
+        <span class="product-price" th:text="${'$' + prod.price}">$0.00</span>
+
+        <!-- Dynamic Stock Level Indicators (Remaining Quantities) -->
+        <!-- Green: Healthy Stock Level (More than 10) -->
+        <span th:if="${prod.stockQuantity > 10}"
+              class="badge badge-success"
+              th:text="${prod.stockQuantity + ' In Stock'}">15 In Stock</span>
+
+        <!-- Orange: Low Stock Level (10 or fewer, greater than 0) -->
+        <span th:if="${prod.stockQuantity <= 10 && prod.stockQuantity > 0}"
+              class="badge badge-warning"
+              th:text="${'Only ' + prod.stockQuantity + ' Left!'}">Only 3 Left!</span>
+
+        <!-- Red: Completely Out of Stock -->
+        <span th:if="${prod.stockQuantity == 0}"
+              class="badge badge-danger">Sold Out</span>
+      </div>
+
+      <!-- Interactive Transactional Actions -->
+      <div class="order-form mt-1" style="width: 100%;">
+        <th:block th:if="${prod.stockQuantity > 0}">
+          <!-- Form mapping directly to WebOrderController's POST handler -->
+          <form th:action="@{/web/orders/create}" method="POST" style="display: flex; flex-direction: column; gap: 0.5rem; width: 100%;">
+
+            <!-- Hidden input transmitting the item context UUID string -->
+            <input type="hidden" name="productId" th:value="${prod.id}">
+
+            <div style="display: flex; gap: 0.5rem; align-items: center; width: 100%;">
+              <!-- Numeric Input bounded by remaining stock limits mapped to 'quantity' parameter -->
+              <input type="number" name="quantity" value="1" min="1" th:max="${prod.stockQuantity}"
+                     class="form-control" style="width: 80px;" aria-label="Item Quantity">
+
+              <button type="submit" class="btn btn-accent btn-sm" style="flex-grow: 1;">
+                Buy Now
+              </button>
+            </div>
+
+            <!-- Small remaining quantity hint below the selectors -->
+            <span style="font-size: 0.75rem; color: var(--text-muted); text-align: left; padding-left: 0.25rem;"
+                  th:text="${'Select up to ' + prod.stockQuantity + ' units'}">
+                                Select up to X units
+                            </span>
+          </form>
+        </th:block>
+
+        <!-- Disabled fallback state if stock level drops down to 0 -->
+        <button th:if="${prod.stockQuantity == 0}" class="btn btn-outline btn-sm" style="width: 100%;" disabled>
+          Out of Stock
+        </button>
+      </div>
+
+      <!-- Extra modification injection helper if the logged-in user is an Administrator -->
+      <div th:if="${isAdmin}" class="mt-2" style="border-top: 1px solid var(--glass-border); padding-top: 0.75rem;">
+        <a th:href="@{/web/admin/products/edit/{id}(id=${prod.id})}" class="btn btn-outline btn-sm" style="width: 100%; justify-content: center;">
+          ✏️ Quick Edit Specifications
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

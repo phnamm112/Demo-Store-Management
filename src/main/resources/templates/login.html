@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In</title>
+  <!-- Include your custom glassmorphism stylesheet here -->
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="auth-wrapper">
+  <div class="auth-card glass-card animate-in">
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Sign in to manage your store</p>
+
+    <!-- Success Message Alert (e.g., from successful registration redirection) -->
+    <div th:if="${successMessage}" class="alert alert-success">
+      <span th:text="${successMessage}">Success message text goes here</span>
+    </div>
+
+    <!-- Spring Security Standard Error Alert (if applicable) -->
+    <div th:if="${param.error}" class="alert alert-error">
+      <span>Invalid username or password.</span>
+    </div>
+
+    <!-- Logout Notification Alert -->
+    <div th:if="${param.logout}" class="alert alert-warning">
+      <span>You have been successfully logged out.</span>
+    </div>
+
+    <!-- Adjust the th:action URL if your Spring Security configuration processes login elsewhere -->
+    <form th:action="@{/web/login}" method="POST">
+      <!-- Username Input -->
+      <div class="form-group">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" id="username" name="username" class="form-control"
+               placeholder="Enter your username" required autocomplete="username">
+      </div>
+
+      <!-- Password Input -->
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" name="password" class="form-control"
+               placeholder="••••••••" required autocomplete="current-password">
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-accent mt-2">Sign In</button>
+    </form>
+
+    <div class="auth-link">
+      Don't have an account yet? <a th:href="@{/web/register}">Register here</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
