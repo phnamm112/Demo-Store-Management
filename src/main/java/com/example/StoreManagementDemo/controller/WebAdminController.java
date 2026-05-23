@@ -1,5 +1,6 @@
 package com.example.StoreManagementDemo.controller;
 
+import com.example.StoreManagementDemo.model.Order;
 import com.example.StoreManagementDemo.model.Product;
 import com.example.StoreManagementDemo.service.OrderService;
 import com.example.StoreManagementDemo.service.ProductService;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/web/admin")
@@ -104,7 +106,31 @@ public class WebAdminController {
 
     @GetMapping("/orders")
     public String listOrders(Model model) {
-        model.addAttribute("orders", orderService.getAllOrders());
+        List<Order> orders = orderService.getAllOrders();
+
+        long totalOrders = orders.size();
+
+        BigDecimal totalRevenue = orders.stream()
+                .filter(order -> "COMPLETED".equals(order.getStatus().name()))
+                .map(Order::getTotalAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        model.addAttribute("orders", orders);
+        model.addAttribute("totalOrders", totalOrders);
+        model.addAttribute("totalRevenue", totalRevenue);
+
         return "admin/orders";
+    }
+
+    @PostMapping("/orders/{id}/status")
+    public String updateOrderStatusFromAdmin(@PathVariable String id,
+                                             @RequestParam String status,
+                                             RedirectAttributes redirectAttributes) {
+        orderService.updateOrderStatus(id, com.example.StoreManagementDemo.model.OrderStatus.valueOf(status));
+
+        String action = status.equals("COMPLETED") ? "approved" : "cancelled";
+        redirectAttributes.addFlashAttribute("successMessage", "Order successfully " + action + "!");
+
+        return "redirect:/web/admin/orders";
     }
 }
