@@ -1,4 +1,4 @@
-package com.example.StoreManagementDemo.dto;
+package com.example.StoreManagementDemo.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

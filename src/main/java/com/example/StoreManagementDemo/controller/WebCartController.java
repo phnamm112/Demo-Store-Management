@@ -1,6 +1,6 @@
 package com.example.StoreManagementDemo.controller;
 
-import com.example.StoreManagementDemo.model.Product;
+import com.example.StoreManagementDemo.dto.response.ProductResponse;
 import com.example.StoreManagementDemo.service.ProductService;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
@@ -53,7 +53,7 @@ public class WebCartController {
                             @RequestParam Integer quantity,
                             HttpSession session,
                             RedirectAttributes redirectAttributes) {
-        Product product = productService.getProductById(productId)
+        ProductResponse product = productService.getProductById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
         List<CartItem> cart = getCartFromSession(session);
@@ -101,4 +101,4 @@ public class WebCartController {
         }
         return cart;
     }
-}
+}

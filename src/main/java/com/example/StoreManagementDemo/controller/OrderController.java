@@ -1,8 +1,8 @@
 package com.example.StoreManagementDemo.controller;
 
-import com.example.StoreManagementDemo.dto.OrderRequest;
-import com.example.StoreManagementDemo.dto.UpdateOrderStatusRequest;
-import com.example.StoreManagementDemo.model.Order;
+import com.example.StoreManagementDemo.dto.request.OrderRequest;
+import com.example.StoreManagementDemo.dto.request.UpdateOrderStatusRequest;
+import com.example.StoreManagementDemo.dto.response.OrderResponse;
 import com.example.StoreManagementDemo.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +27,12 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Order>> getAllOrders() {
+    public ResponseEntity<List<OrderResponse>> getAllOrders() {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
     @GetMapping("/my-orders")
-    public ResponseEntity<List<Order>> getMyOrders(Principal principal) {
+    public ResponseEntity<List<OrderResponse>> getMyOrders(Principal principal) {
         return ResponseEntity.ok(orderService.getUserOrders(principal.getName()));
     }
 

@@ -80,7 +80,15 @@ public class SecurityConfig {
             .formLogin(form -> form
                 .loginPage("/web/login")
                 .loginProcessingUrl("/web/login")
-                .defaultSuccessUrl("/web/products", true)
+                .successHandler((request, response, authentication) -> {
+                    boolean isAdmin = authentication.getAuthorities().stream()
+                            .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+                    if (isAdmin) {
+                        response.sendRedirect("/web/admin/orders");
+                    } else {
+                        response.sendRedirect("/web/products");
+                    }
+                })
                 .failureUrl("/web/login?error=true")
                 .permitAll()
             )

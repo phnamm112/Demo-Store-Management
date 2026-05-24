@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- Simple Navigation Bar Embedded for Layout Flow -->
 <nav class="navbar">
   <div class="navbar-inner">
     <span class="navbar-brand">Store Dashboard</span>
@@ -23,40 +22,37 @@
   <div class="page-header toolbar">
     <div>
       <h1>Products</h1>
-      <p>View, modify, and keep track of internal item levels.</p>
+      <p>Manage your product inventory.</p>
     </div>
     <a th:href="@{/web/admin/products/add}" class="btn btn-primary">Add New Product</a>
   </div>
 
-  <!-- Success Toast Notifications -->
   <div th:if="${successMessage}" class="alert alert-success">
-    <span th:text="${successMessage}">Operation successful!</span>
+    <span th:text="${successMessage}"></span>
   </div>
 
-  <!-- Empty State Handling -->
   <div th:if="${#lists.isEmpty(products)}" class="glass-card empty-state">
     <div class="empty-icon">📦</div>
     <h3>No products found</h3>
-    <p>Get started by inserting your very first store item.</p>
+    <p>Add your first product to get started.</p>
   </div>
 
-  <!-- Table View -->
   <div th:if="${!#lists.isEmpty(products)}" class="table-wrapper glass-card">
     <table>
       <thead>
       <tr>
         <th>Product Name</th>
         <th>Price</th>
-        <th>Stock Status</th>
+        <th>Stock</th>
         <th>Actions</th>
       </tr>
       </thead>
       <tbody>
       <tr th:each="prod : ${products}">
         <td>
-          <a th:href="@{/web/admin/products/{id}(id=${prod.id})}" th:text="${prod.name}" class="product-name" style="font-weight: 500;">Product Name</a>
+          <a th:href="@{/web/admin/products/{id}(id=${prod.id})}" th:text="${prod.name}" class="product-name" style="font-weight: 500;"></a>
         </td>
-        <td class="product-price" th:text="${'$' + prod.price}">$0.00</td>
+        <td class="product-price" th:text="${'$' + prod.price}"></td>
         <td>
           <span th:if="${prod.stockQuantity > 10}" th:text="${prod.stockQuantity + ' Units'}" class="badge badge-success">In Stock</span>
           <span th:if="${prod.stockQuantity <= 10 && prod.stockQuantity > 0}" th:text="${prod.stockQuantity + ' Low'}" class="badge badge-warning">Low Stock</span>

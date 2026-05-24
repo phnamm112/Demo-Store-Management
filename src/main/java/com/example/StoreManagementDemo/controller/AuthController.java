@@ -1,15 +1,16 @@
 package com.example.StoreManagementDemo.controller;
 
-import com.example.StoreManagementDemo.dto.JwtResponse;
-import com.example.StoreManagementDemo.dto.LoginRequest;
-import com.example.StoreManagementDemo.dto.TokenRefreshRequest;
-import com.example.StoreManagementDemo.dto.TokenRefreshResponse;
-import com.example.StoreManagementDemo.dto.UserRegistrationDto;
+import com.example.StoreManagementDemo.dto.response.JwtResponse;
+import com.example.StoreManagementDemo.dto.request.LoginRequest;
+import com.example.StoreManagementDemo.dto.request.TokenRefreshRequest;
+import com.example.StoreManagementDemo.dto.response.TokenRefreshResponse;
+import com.example.StoreManagementDemo.dto.request.UserRegistrationDto;
 import com.example.StoreManagementDemo.model.RefreshToken;
 import com.example.StoreManagementDemo.model.User;
 import com.example.StoreManagementDemo.repository.UserRepository;
 import com.example.StoreManagementDemo.security.JwtUtils;
 import com.example.StoreManagementDemo.service.RefreshTokenService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,7 +36,7 @@ public class AuthController {
     private final RefreshTokenService refreshTokenService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -56,7 +57,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<?> refreshtoken(@RequestBody TokenRefreshRequest request) {
+    public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();
 
         return refreshTokenService.findByToken(requestRefreshToken)
@@ -70,7 +71,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserRegistrationDto registrationDto) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegistrationDto registrationDto) {
         if (userRepository.findByUsername(registrationDto.getUsername()).isPresent()) {
             return ResponseEntity.badRequest().body("Error: Username is already taken!");
         }

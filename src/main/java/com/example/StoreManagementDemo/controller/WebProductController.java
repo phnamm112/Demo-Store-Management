@@ -1,6 +1,6 @@
 package com.example.StoreManagementDemo.controller;
 
-import com.example.StoreManagementDemo.model.Product;
+import com.example.StoreManagementDemo.dto.response.ProductResponse;
 import com.example.StoreManagementDemo.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -21,17 +21,17 @@ public class WebProductController {
     @GetMapping("/products")
     public String listProducts(Model model, Authentication authentication) {
         model.addAttribute("products", productService.getAllProducts());
-        boolean isAdmin = authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        boolean isAdmin = authentication != null && authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
         model.addAttribute("isAdmin", isAdmin);
         return "products";
     }
 
     @GetMapping("/products/{id}")
     public String productDetail(@PathVariable String id, Model model, Authentication authentication) {
-        Product product = productService.getProductById(id)
+        ProductResponse product = productService.getProductById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         model.addAttribute("product", product);
-        boolean isAdmin = authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        boolean isAdmin = authentication != null && authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
         model.addAttribute("isAdmin", isAdmin);
         return "product-detail";
     }

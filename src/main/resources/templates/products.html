@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- Main Global Navigation Bar -->
 <nav class="navbar">
   <div class="navbar-inner">
     <span class="navbar-brand">Storefront</span>
@@ -25,62 +24,41 @@
 
 <div class="container">
   <div class="page-header">
-    <h1>Explore Our Catalog</h1>
-    <p>Premium options engineered with outstanding care and precision metrics.</p>
+    <h1>Products</h1>
+    <p>Browse our catalog and find what you need.</p>
   </div>
 
-  <!-- Success Toast Notifications -->
   <div th:if="${successMessage}" class="alert alert-success">
-    <span th:text="${successMessage}">Operation successful!</span>
+    <span th:text="${successMessage}"></span>
   </div>
 
-  <!-- Error Toast Notifications -->
   <div th:if="${errorMessage}" class="alert alert-error">
-    <span th:text="${errorMessage}">An error occurred!</span>
+    <span th:text="${errorMessage}"></span>
   </div>
 
-  <!-- Empty State Fallback -->
   <div th:if="${#lists.isEmpty(products)}" class="glass-card empty-state">
     <div class="empty-icon">🪐</div>
-    <h3>Catalog is empty</h3>
-    <p>Check back shortly! New inventory selections are on their way.</p>
+    <h3>No products available</h3>
+    <p>Check back later for new items.</p>
   </div>
 
-  <!-- Grid Cards Iteration Layout -->
   <div th:if="${!#lists.isEmpty(products)}" class="product-grid">
     <div th:each="prod : ${products}" class="glass-card product-card">
 
-      <!-- Product Name Header linking to item details view -->
-      <a th:href="@{/web/products/{id}(id=${prod.id})}" class="product-name" th:text="${prod.name}">
-        Product Variant Title
-      </a>
+      <a th:href="@{/web/products/{id}(id=${prod.id})}" class="product-name" th:text="${prod.name}"></a>
 
-      <!-- Trimmed Item Context Field Description -->
-      <p class="product-desc" th:text="${prod.description}">
-        Detailed documentation properties go here.
-      </p>
+      <p class="product-desc" th:text="${prod.description}"></p>
 
       <div class="product-meta">
-        <span class="product-price" th:text="${'$' + prod.price}">$0.00</span>
-
-        <!-- Dynamic Stock Level Indicators (Remaining Quantities) -->
-        <!-- Green: Healthy Stock Level (More than 10) -->
-        <span th:if="${prod.stockQuantity > 10}"
+        <span class="product-price" th:text="${'$' + prod.price}"></span>
+        <span th:if="${prod.stockQuantity > 0}"
               class="badge badge-success"
-              th:text="${prod.stockQuantity + ' In Stock'}">15 In Stock</span>
-
-        <!-- Orange: Low Stock Level (10 or fewer, greater than 0) -->
-        <span th:if="${prod.stockQuantity <= 10 && prod.stockQuantity > 0}"
-              class="badge badge-warning"
-              th:text="${'Only ' + prod.stockQuantity + ' Left!'}">Only 3 Left!</span>
-
-        <!-- Red: Completely Out of Stock -->
+              th:text="${prod.stockQuantity + ' In Stock'}"></span>
         <span th:if="${prod.stockQuantity == 0}"
               class="badge badge-danger">Sold Out</span>
       </div>
 
-      <!-- Interactive Transactional Actions -->
-      <div class="order-form mt-1" style="width: 100%;">
+      <div th:unless="${isAdmin}" class="order-form mt-1" style="width: 100%;">
         <th:block th:if="${prod.stockQuantity > 0}">
           <form th:action="@{/web/cart/add}" method="POST" style="display: flex; flex-direction: column; gap: 0.5rem; width: 100%;">
 
@@ -95,10 +73,8 @@
               </button>
             </div>
 
-            <span style="font-size: 0.75rem; color: var(--text-muted); text-align: left; padding-left: 0.25rem;"
-                  th:text="${'Select up to ' + prod.stockQuantity + ' units'}">
-            Select up to X units
-      </span>
+              <span style="font-size: 0.75rem; color: var(--text-muted); text-align: left; padding-left: 0.25rem;"
+                  th:text="${'Max: ' + prod.stockQuantity}"></span>
           </form>
         </th:block>
 
@@ -107,10 +83,9 @@
         </button>
       </div>
 
-      <!-- Extra modification injection helper if the logged-in user is an Administrator -->
       <div th:if="${isAdmin}" class="mt-2" style="border-top: 1px solid var(--glass-border); padding-top: 0.75rem;">
         <a th:href="@{/web/admin/products/edit/{id}(id=${prod.id})}" class="btn btn-outline btn-sm" style="width: 100%; justify-content: center;">
-          Quick Edit Specifications
+          Edit Product
         </a>
       </div>
 

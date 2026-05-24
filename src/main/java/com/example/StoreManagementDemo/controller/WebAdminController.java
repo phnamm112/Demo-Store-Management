@@ -1,7 +1,8 @@
 package com.example.StoreManagementDemo.controller;
 
-import com.example.StoreManagementDemo.model.Order;
-import com.example.StoreManagementDemo.model.Product;
+import com.example.StoreManagementDemo.dto.request.ProductRequest;
+import com.example.StoreManagementDemo.dto.response.OrderResponse;
+import com.example.StoreManagementDemo.dto.response.ProductResponse;
 import com.example.StoreManagementDemo.service.OrderService;
 import com.example.StoreManagementDemo.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,8 @@ public class WebAdminController {
 
     @GetMapping("/products/add")
     public String showAddProductForm(Model model) {
-        model.addAttribute("product", new Product());
+        // Pass a dummy request object or simply leave it for the form binding if needed
+        model.addAttribute("product", new ProductRequest());
         model.addAttribute("isEdit", false); // Add flag to signify "Create" mode
         return "admin/product-form";
     }
@@ -48,12 +50,11 @@ public class WebAdminController {
                              @RequestParam Integer stockQuantity,
                              Principal principal,
                              RedirectAttributes redirectAttributes) {
-        Product product = new Product();
+        ProductRequest product = new ProductRequest();
         product.setName(name);
         product.setDescription(description);
         product.setPrice(price);
         product.setStockQuantity(stockQuantity);
-        product.setCreatedBy(principal.getName());
         productService.createProduct(product);
         redirectAttributes.addFlashAttribute("successMessage", "Product added successfully!");
         return "redirect:/web/admin/products";
@@ -61,7 +62,7 @@ public class WebAdminController {
 
     @GetMapping("/products/edit/{id}")
     public String showEditProductForm(@PathVariable String id, Model model) {
-        Product product = productService.getProductById(id)
+        ProductResponse product = productService.getProductById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         model.addAttribute("product", product);
         model.addAttribute("isEdit", true); // Add flag to signify "Edit/Modify" mode
@@ -76,12 +77,11 @@ public class WebAdminController {
                               @RequestParam Integer stockQuantity,
                               Principal principal,
                               RedirectAttributes redirectAttributes) {
-        Product updatedProduct = new Product();
+        ProductRequest updatedProduct = new ProductRequest();
         updatedProduct.setName(name);
         updatedProduct.setDescription(description);
         updatedProduct.setPrice(price);
         updatedProduct.setStockQuantity(stockQuantity);
-        updatedProduct.setUpdatedBy(principal.getName());
         productService.updateProduct(id, updatedProduct);
         redirectAttributes.addFlashAttribute("successMessage", "Product updated successfully!");
         return "redirect:/web/admin/products";
@@ -96,7 +96,7 @@ public class WebAdminController {
 
     @GetMapping("/products/{id}")
     public String productDetail(@PathVariable String id, Model model) {
-        Product product = productService.getProductById(id)
+        ProductResponse product = productService.getProductById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         model.addAttribute("product", product);
         return "admin/product-detail";
@@ -106,13 +106,13 @@ public class WebAdminController {
 
     @GetMapping("/orders")
     public String listOrders(Model model) {
-        List<Order> orders = orderService.getAllOrders();
+        List<OrderResponse> orders = orderService.getAllOrders();
 
         long totalOrders = orders.size();
 
         BigDecimal totalRevenue = orders.stream()
                 .filter(order -> "COMPLETED".equals(order.getStatus().name()))
-                .map(Order::getTotalAmount)
+                .map(OrderResponse::getTotalAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         model.addAttribute("orders", orders);

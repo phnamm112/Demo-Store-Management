@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- Main Navigation Bar -->
 <nav class="navbar">
   <div class="navbar-inner">
     <span class="navbar-brand">Storefront</span>
@@ -22,37 +21,31 @@
 
 <div class="container">
   <div class="page-header">
-    <h1>Your Purchase History</h1>
-    <p>Track your real-time processing statuses and historical acquisition records.</p>
+    <h1>My Orders</h1>
+    <p>Track your order statuses and purchase history.</p>
   </div>
 
-  <!-- Empty State Fallback -->
   <div th:if="${#lists.isEmpty(orders)}" class="glass-card empty-state">
     <div class="empty-icon">🧾</div>
     <h3>No orders found</h3>
-    <p>Looks like you haven't placed any orders yet. Head over to our catalog to browse items!</p>
+    <p>You haven't placed any orders yet.</p>
     <a th:href="@{/web/products}" class="btn btn-primary mt-2">Browse Catalog</a>
   </div>
 
-  <!-- Orders Table Layout -->
   <div th:if="${!#lists.isEmpty(orders)}" class="table-wrapper glass-card">
     <table>
       <thead>
       <tr>
-        <th>Order Reference ID</th>
-        <th>Aggregate Total</th>
-        <th>Processing Status</th>
+        <th>Order ID</th>
+        <th>Total</th>
+        <th>Status</th>
       </tr>
       </thead>
       <tbody>
       <tr th:each="order : ${orders}">
-        <!-- Monospaced styling for tracking identification keys -->
-        <td style="font-family: monospace; color: var(--accent); font-weight: 500;" th:text="${order.id}">
-          #ORD-99214A
-        </td>
-        <td class="product-price" th:text="${'$' + order.totalAmount}">$0.00</td>
+        <td style="font-family: monospace; color: var(--accent); font-weight: 500;" th:text="${order.id}"></td>
+        <td class="product-price" th:text="${'$' + order.totalAmount}"></td>
         <td>
-          <!-- Status Badging Conditions matching typical order processing variables -->
           <span th:if="${order.status.name() == 'COMPLETED'}" class="badge badge-success">Completed</span>
           <span th:if="${order.status.name() == 'PENDING'}" class="badge badge-warning">Pending</span>
           <span th:if="${order.status.name() == 'CANCELLED'}" class="badge badge-danger">Cancelled</span>

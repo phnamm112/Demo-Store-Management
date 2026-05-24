@@ -1,22 +1,26 @@
 package com.example.StoreManagementDemo.service;
 
-import com.example.StoreManagementDemo.dto.OrderRequest;
-import com.example.StoreManagementDemo.dto.OrderRequestItem;
+import com.example.StoreManagementDemo.dto.request.OrderRequest;
+import com.example.StoreManagementDemo.dto.request.OrderRequestItem;
+import com.example.StoreManagementDemo.dto.response.OrderResponse;
 import com.example.StoreManagementDemo.model.Order;
 import com.example.StoreManagementDemo.model.OrderItem;
 import com.example.StoreManagementDemo.model.OrderStatus;
 import com.example.StoreManagementDemo.model.Product;
 import com.example.StoreManagementDemo.model.User;
+import com.example.StoreManagementDemo.event.ProductDeletedEvent;
 import com.example.StoreManagementDemo.repository.OrderRepository;
 import com.example.StoreManagementDemo.repository.ProductRepository;
 import com.example.StoreManagementDemo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +31,7 @@ public class OrderServiceImpl implements OrderService {
     private final UserRepository userRepository;
     private final CurrentUserService currentUserService;
 
+    @Override
     @Transactional
     public void createOrder(String username, OrderRequest orderRequest) {
         User user = userRepository.findByUsername(username)
@@ -67,6 +72,7 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
     }
 
+    @Override
     @Transactional
     public void updateOrderStatus(String id, OrderStatus status) {
         String currentUserId = currentUserService.getCurrentUserId().orElse("system");
@@ -78,10 +84,17 @@ public class OrderServiceImpl implements OrderService {
         if (status == OrderStatus.CANCELLED && oldStatus != OrderStatus.CANCELLED) {
             if (order.getOrderItems() != null) {
                 for (OrderItem item : order.getOrderItems()) {
-                    Product product = item.getProduct();
+                    Product product = null;
+                    try {
+                        product = item.getProduct();
+                        if (product != null) {
+                            product.getId();
+                        }
+                    } catch (jakarta.persistence.EntityNotFoundException e) {
+                        // Product was soft-deleted
+                    }
                     if (product == null || product.isDeleted()) {
-                        throw new RuntimeException("Product on order item ID " + item.getId() +
-                                " was deleted. Skipping stock restoration.");
+                        continue;
                     }
                     int restoredQuantity = product.getStockQuantity() + item.getQuantity();
                     product.setStockQuantity(restoredQuantity);
@@ -95,13 +108,34 @@ public class OrderServiceImpl implements OrderService {
         order.setUpdatedBy(currentUserId);
     }
 
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    @Override
+    public List<OrderResponse> getAllOrders() {
+        return orderRepository.findAll().stream()
+                .map(OrderResponse::fromEntity)
+                .collect(Collectors.toList());
     }
 
-    public List<Order> getUserOrders(String username) {
+    @Override
+    public List<OrderResponse> getUserOrders(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        return orderRepository.findByUserId(user.getId());
+        return orderRepository.findByUserId(user.getId()).stream()
+                .map(OrderResponse::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void cancelPendingOrdersByProductId(String productId) {
+        List<Order> pendingOrders = orderRepository.findPendingOrdersByProductId(productId);
+        for (Order order : pendingOrders) {
+            updateOrderStatus(order.getId(), OrderStatus.CANCELLED);
+        }
+    }
+
+    @EventListener
+    @Transactional
+    public void handleProductDeletedEvent(ProductDeletedEvent event) {
+        cancelPendingOrdersByProductId(event.getProductId());
     }
 }
