@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Item Specifics</title>
-  <link class="stylesheet" th:href="@{/css/style.css}">
+  <title>Product Details</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
@@ -14,42 +14,32 @@
     <hr style="border: 0; border-top: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
 
     <div class="detail-row">
-      <div class="detail-label">Unique Identifier</div>
-      <div class="detail-value" th:text="${product.id}">ID_0001</div>
+      <div class="detail-label">Product ID</div>
+      <div class="detail-value" th:text="${product.id}"></div>
     </div>
 
     <div class="detail-row">
       <div class="detail-label">Description</div>
-      <div class="detail-value" th:text="${product.description}">Item documentation goes here.</div>
+      <div class="detail-value" th:text="${product.description}"></div>
     </div>
 
     <div class="detail-row">
-      <div class="detail-label">Current Unit Price</div>
-      <div class="detail-value product-price" th:text="${'$' + product.price}">$0.00</div>
+      <div class="detail-label">Price</div>
+      <div class="detail-value product-price" th:text="${'$' + product.price}"></div>
     </div>
 
     <div class="detail-row">
-      <div class="detail-label">Inventory Level</div>
+      <div class="detail-label">Stock</div>
       <div class="detail-value">
-                    <span th:text="${product.stockQuantity + ' left'}"
-                          th:classappend="${product.stockQuantity > 0} ? 'badge badge-stock' : 'badge badge-danger'">0 available</span>
+        <span th:if="${product.stockQuantity > 0}" class="badge badge-success" th:text="${product.stockQuantity + ' In Stock'}"></span>
+        <span th:if="${product.stockQuantity == 0}" class="badge badge-danger">Out of Stock</span>
       </div>
     </div>
 
-    <div class="detail-row">
-      <div class="detail-label">Created By</div>
-      <div class="detail-value" th:text="${product.createdBy != null ? product.createdBy : 'System Agent'}">Operator</div>
-    </div>
 
-    <div class="detail-row" th:if="${product.updatedBy != null}">
-      <div class="detail-label">Modified By</div>
-      <div class="detail-value" th:text="${product.updatedBy}">Operator Name</div>
-    </div>
-
-    <!-- Context Interactions -->
     <div class="flex gap-1 mt-3">
-      <a th:href="@{/web/admin/products}" class="btn btn-outline">Back to Grid</a>
-      <a th:href="@{/web/admin/products/edit/{id}(id=${product.id})}" class="btn btn-primary">Edit Specifications</a>
+      <a th:href="@{/web/admin/products}" class="btn btn-outline">Back to Products</a>
+      <a th:href="@{/web/admin/products/edit/{id}(id=${product.id})}" class="btn btn-primary">Edit Product</a>
     </div>
   </div>
 </div>

@@ -1,5 +1,6 @@
 package com.example.StoreManagementDemo.service;
 
+import com.example.StoreManagementDemo.dto.response.UserResponse;
 import com.example.StoreManagementDemo.model.User;
 import com.example.StoreManagementDemo.repository.UserRepository;
 import com.example.StoreManagementDemo.security.CustomUserDetails;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+
 @RequiredArgsConstructor
 public class CurrentUserServiceImpl implements CurrentUserService {
 
@@ -37,7 +39,7 @@ public class CurrentUserServiceImpl implements CurrentUserService {
         return Optional.empty();
     }
 
-    public Optional<User> getCurrentUser() {
+    public Optional<UserResponse> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             return Optional.empty();
@@ -47,12 +49,13 @@ public class CurrentUserServiceImpl implements CurrentUserService {
 
         // Performance optimization: Read user directly from memory if wrapped in CustomUserDetails
         if (principal instanceof CustomUserDetails) {
-            return Optional.of(((CustomUserDetails) principal).getUser());
+            return Optional.of(UserResponse.fromEntity(((CustomUserDetails) principal).getUser()));
         }
 
         // Fallback: Query the database using the username string
         return getCurrentUsername()
-                .flatMap(userRepository::findByUsername);
+                .flatMap(userRepository::findByUsername)
+                .map(UserResponse::fromEntity);
     }
 
     public Optional<String> getCurrentUserId() {
@@ -67,7 +70,9 @@ public class CurrentUserServiceImpl implements CurrentUserService {
         }
 
         // Fallback if principal is not wrapped in CustomUserDetails (loads user from DB first)
-        return getCurrentUser().map(User::getId);
+        return getCurrentUsername()
+                .flatMap(userRepository::findByUsername)
+                .map(User::getId);
     }
 
     public boolean isAuthenticated() {

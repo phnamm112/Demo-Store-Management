@@ -1,10 +1,10 @@
 package com.example.StoreManagementDemo.controller;
 
-import com.example.StoreManagementDemo.dto.OrderRequest;
-import com.example.StoreManagementDemo.dto.OrderRequestItem;
+import com.example.StoreManagementDemo.dto.request.OrderRequest;
+import com.example.StoreManagementDemo.dto.request.OrderRequestItem;
 import com.example.StoreManagementDemo.service.OrderService;
 import com.example.StoreManagementDemo.service.ProductService;
-import com.example.StoreManagementDemo.controller.WebCartController.CartItem; // Import your DTO from WebCartController
+import com.example.StoreManagementDemo.controller.WebCartController.CartItem;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

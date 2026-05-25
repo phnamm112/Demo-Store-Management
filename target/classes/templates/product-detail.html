@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title th:text="${product.name}">Specification Breakdown</title>
+  <title th:text="${product.name}">Product Details</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -12,49 +12,52 @@
   <div class="detail-card glass-card animate-in">
 
     <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap;">
-      <h2 th:text="${product.name}" style="margin: 0;">Product Details</h2>
-      <!-- Admin contextual routing shortcut tag -->
+      <h2 th:text="${product.name}" style="margin: 0;"></h2>
       <a th:if="${isAdmin}" th:href="@{/web/admin/products/edit/{id}(id=${product.id})}" class="badge badge-warning" style="text-decoration: none;">
-        🔧 Edit in Admin Panel
+        🔧 Edit Product
       </a>
     </div>
 
     <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 1.25rem 0;">
 
     <div class="detail-row">
-      <div class="detail-label">Item Description</div>
-      <div class="detail-value" th:text="${product.description}">Full product spec description strings.</div>
+      <div class="detail-label">Description</div>
+      <div class="detail-value" th:text="${product.description}"></div>
     </div>
 
     <div class="detail-row">
-      <div class="detail-label">Price Point</div>
-      <div class="detail-value product-price" th:text="${'$' + product.price}">$0.00</div>
+      <div class="detail-label">Price</div>
+      <div class="detail-value product-price" th:text="${'$' + product.price}"></div>
     </div>
 
     <div class="detail-row">
-      <div class="detail-label">Availability Status</div>
+      <div class="detail-label">Availability</div>
       <div class="detail-value">
-        <span th:if="${product.stockQuantity > 10}" class="badge badge-success" th:text="${product.stockQuantity + ' Units Ready'}">In Stock</span>
-        <span th:if="${product.stockQuantity <= 10 && product.stockQuantity > 0}" class="badge badge-warning" th:text="${'Only ' + product.stockQuantity + ' Left'}">Low Stock</span>
-        <span th:if="${product.stockQuantity == 0}" class="badge badge-danger">Completely Backordered</span>
+        <span th:if="${product.stockQuantity > 0}" class="badge badge-success" th:text="${product.stockQuantity + ' In Stock'}">In Stock</span>
+        <span th:if="${product.stockQuantity == 0}" class="badge badge-danger">Out of Stock</span>
       </div>
     </div>
 
-    <!-- Context Processing Options Footer Form Block -->
     <div class="flex gap-1 mt-3" style="flex-wrap: wrap;">
-      <a th:href="@{/web/products}" class="btn btn-outline" style="flex: 1; min-width: 120px;">
-        🔀 Back to Browsing
+      <a th:href="@{/web/products}" class="btn btn-outline" style="flex: 1; min-width: 120px; justify-content: center; display: inline-flex; align-items: center;">
+        ← Back to Products
       </a>
 
-      <th:block th:if="${product.stockQuantity > 0}">
-        <button class="btn btn-success" style="flex: 2; min-width: 200px;">
-          Secure Purchase Unit
+      <div th:unless="${isAdmin}" style="flex: 2; min-width: 200px;">
+        <th:block th:if="${product.stockQuantity > 0}">
+          <form th:action="@{/web/cart/add}" method="POST" style="display: flex; gap: 0.5rem; align-items: center; width: 100%;">
+            <input type="hidden" name="productId" th:value="${product.id}">
+            <input type="number" name="quantity" value="1" min="1" th:max="${product.stockQuantity}"
+                   class="form-control" style="width: 80px;" aria-label="Item Quantity">
+            <button type="submit" class="btn btn-success" style="flex-grow: 1; justify-content: center;">
+              Add to Cart
+            </button>
+          </form>
+        </th:block>
+        <button th:if="${product.stockQuantity == 0}" class="btn btn-outline" style="width: 100%; justify-content: center;" disabled>
+          Out of Stock
         </button>
-      </th:block>
-
-      <button th:if="${product.stockQuantity == 0}" class="btn btn-outline" style="flex: 2; min-width: 200px;" disabled>
-        Notify Me When Available
-      </button>
+      </div>
     </div>
 
   </div>

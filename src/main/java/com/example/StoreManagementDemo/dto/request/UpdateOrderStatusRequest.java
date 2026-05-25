@@ -1,4 +1,4 @@
-package com.example.StoreManagementDemo.dto;
+package com.example.StoreManagementDemo.dto.request;
 
 import com.example.StoreManagementDemo.model.OrderStatus;
 import jakarta.validation.constraints.NotNull;
